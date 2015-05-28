@@ -38,7 +38,7 @@ class Calendar(object):
         e.g.
             bacs_calendar = Calendar.load('bacs')
         """
-        file_name = '{}.yml'.format(rules)
+        file_name = '{0}.yml'.format(rules)
         if data_path is None:
             data_path = os.path.join(os.path.dirname(__file__), 'data')
         rules_path = os.path.join(data_path, file_name)
@@ -69,7 +69,7 @@ class Calendar(object):
         for day in days:
             normalised_day = day.lower()[:3]
             if normalised_day not in self.DAY_NAMES:
-                raise Exception("Invalid Day: {}".format(day))
+                raise Exception("Invalid Day: {0}".format(day))
             normalised_days.append(normalised_day)
         self._working_days = normalised_days
 
