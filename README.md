@@ -1,5 +1,7 @@
 # business.py
 
+![travis build](https://travis-ci.org/dafrancis/business.py.svg?branch=master)
+
 Date calculations based on business calendars.
 
 This is basically a python version of a [ruby gem](github.com/gocardless/business).
