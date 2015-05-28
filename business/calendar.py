@@ -41,7 +41,8 @@ class Calendar(object):
         """
         file_name = '{}.yml'.format(rules)
         if custom_path is None:
-            rules_path = os.path.join('business', 'data', file_name)
+            module_path = os.path.dirname(__file__)
+            rules_path = os.path.join(module_path, 'data', file_name)
         else:
             rules_path = os.path.join(custom_path, file_name)
 

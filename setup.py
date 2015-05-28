@@ -12,6 +12,9 @@ config = {
     'version': '0.1',
     'install_requires': ['nose', 'pyyaml'],
     'packages': ['business'],
+    'package_data': {
+        'business': ['data/*.yml'],
+    },
     'scripts': [],
     'name': 'business'
 }
