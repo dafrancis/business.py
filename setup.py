@@ -10,7 +10,7 @@ config = {
     'download_url': 'Where to download it.',
     'author_email': 'dafydd.francis@andwhathave.eu',
     'version': '0.1',
-    'install_requires': ['nose', 'pyyaml'],
+    'install_requires': ['nose', 'pyyaml', 'python-dateutil'],
     'packages': ['business'],
     'package_data': {
         'business': ['data/*.yml'],
