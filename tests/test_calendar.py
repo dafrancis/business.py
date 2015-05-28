@@ -16,7 +16,7 @@ def test_load_valid_calendar():
 def test_load_valid_calendar_from_custom_directory():
     dir_name = os.path.join(os.path.dirname(__file__), 'fixtures', 'calendars')
     calendar.yaml = Mock(load=Mock(return_value={}))
-    calendar.Calendar.load('ecb', custom_path=dir_name)
+    calendar.Calendar.load('ecb', data_path=dir_name)
     assert calendar.yaml.load.called
 
 

@@ -3,7 +3,6 @@ import datetime
 from dateutil import rrule
 from dateutil import parser
 import os
-
 import yaml
 
 
@@ -32,7 +31,7 @@ class Calendar(object):
         self.holidays = holidays
 
     @classmethod
-    def load(cls, rules, custom_path=None):
+    def load(cls, rules, data_path=None):
         """
         Load a calendar with predefined rules.
 
@@ -40,11 +39,9 @@ class Calendar(object):
             bacs_calendar = Calendar.load('bacs')
         """
         file_name = '{}.yml'.format(rules)
-        if custom_path is None:
-            module_path = os.path.dirname(__file__)
-            rules_path = os.path.join(module_path, 'data', file_name)
-        else:
-            rules_path = os.path.join(custom_path, file_name)
+        if data_path is None:
+            data_path = os.path.join(os.path.dirname(__file__), 'data')
+        rules_path = os.path.join(data_path, file_name)
 
         if not os.path.isfile(rules_path):
             raise Exception('Rules Does Not Exist')
@@ -52,7 +49,7 @@ class Calendar(object):
         with open(rules_path, 'r') as rules_file:
             rules_yaml = yaml.load(rules_file)
 
-        return Calendar(working_days=rules_yaml.get('working_daysk'),
+        return Calendar(working_days=rules_yaml.get('working_days'),
                         holidays=rules_yaml.get('holidays'))
 
     @property
@@ -72,7 +69,7 @@ class Calendar(object):
         for day in days:
             normalised_day = day.lower()[:3]
             if normalised_day not in self.DAY_NAMES:
-                raise Exception("Invalid Day {}".format(day))
+                raise Exception("Invalid Day: {}".format(day))
             normalised_days.append(normalised_day)
         self._working_days = normalised_days
 
