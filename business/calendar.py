@@ -1,4 +1,3 @@
-"""Business Calendar."""
 import datetime
 from dateutil import rrule
 from dateutil import parser
@@ -7,7 +6,6 @@ import yaml
 
 
 def parse_date(date):
-    """Parse date string."""
     if isinstance(date, str):
         return parser.parse(date, dayfirst=True).date()
     if isinstance(date, datetime.datetime):
@@ -54,16 +52,10 @@ class Calendar(object):
 
     @property
     def working_days(self):
-        """Return working days."""
         return self._working_days
 
     @working_days.setter
     def working_days(self, value):
-        """
-        Set the working days.
-
-        This normalises the inputs and checks if it's on the list of valid days.
-        """
         days = value or self.DEFAULT_WORKING_DAYS
         normalised_days = []
         for day in days:
@@ -75,7 +67,6 @@ class Calendar(object):
 
     @property
     def holidays(self):
-        """Return holidays."""
         return self._holidays
 
     @holidays.setter
@@ -86,14 +77,9 @@ class Calendar(object):
         This parses the date from a list of date strings.
         """
         dates = value or []
-        holidays = []
-        for date in dates:
-            holiday = parse_date(date)
-            holidays.append(holiday)
-        self._holidays = holidays
+        self._holidays = [parse_date(date) for date in dates]
 
     def is_business_day(self, day):
-        """Return True if business day."""
         parsed_day = parse_date(day)
         if parsed_day.strftime('%a').lower() not in self.working_days:
             return False
@@ -118,24 +104,20 @@ class Calendar(object):
         return day
 
     def next_business_day(self, day):
-        """Get next business day."""
         day += self.DAY_INTERVAL
         return self.roll_forward(day)
 
     def previous_business_day(self, day):
-        """Get previous business day."""
         day -= self.DAY_INTERVAL
         return self.roll_backward(day)
 
     def add_business_days(self, day, days):
-        """Add business days."""
         day = self.roll_forward(day)
         for _ in range(days):
             day = self.next_business_day(day)
         return day
 
     def subtract_business_days(self, day, days):
-        """Subtract business days."""
         day = self.roll_backward(day)
         for _ in range(days):
             day = self.previous_business_day(day)
