@@ -20,6 +20,7 @@ class Calendar(object):
     DAY_INTERVAL = datetime.timedelta(days=1)
     DAY_NAMES = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
     DEFAULT_WORKING_DAYS = ['mon', 'tue', 'wed', 'thu', 'fri']
+    DEFAULT_DATA_PATH = os.path.join(os.path.dirname(__file__), 'data')
 
     def __init__(self, working_days=None, holidays=None):
         self._working_days = None
@@ -29,7 +30,7 @@ class Calendar(object):
         self.holidays = holidays
 
     @classmethod
-    def load(cls, rules, data_path=None):
+    def load(cls, rules, data_path=DEFAULT_DATA_PATH):
         """
         Load a calendar with predefined rules.
 
@@ -37,8 +38,6 @@ class Calendar(object):
             bacs_calendar = Calendar.load('bacs')
         """
         file_name = '{0}.yml'.format(rules)
-        if data_path is None:
-            data_path = os.path.join(os.path.dirname(__file__), 'data')
         rules_path = os.path.join(data_path, file_name)
 
         if not os.path.isfile(rules_path):
@@ -79,13 +78,15 @@ class Calendar(object):
         dates = value or []
         self._holidays = [parse_date(date) for date in dates]
 
+    def is_working_day(self, day):
+        return day.strftime('%a').lower() in self.working_days
+
+    def is_not_holiday(self, day):
+        return day not in self.holidays
+
     def is_business_day(self, day):
-        parsed_day = parse_date(day)
-        if parsed_day.strftime('%a').lower() not in self.working_days:
-            return False
-        if parsed_day in self.holidays:
-            return False
-        return True
+        date = parse_date(day)
+        return self.is_working_day(date) and self.is_not_holiday(date)
 
     def roll_forward(self, day):
         """Roll forward to the next business day if not a business day."""
