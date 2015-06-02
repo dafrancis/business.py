@@ -39,9 +39,7 @@ class Calendar(object):
         """
         file_name = '{0}.yml'.format(rules)
         rules_path = os.path.join(data_path, file_name)
-
-        if not os.path.isfile(rules_path):
-            raise Exception('Rules Does Not Exist')
+        assert os.path.isfile(rules_path), 'Rules Does Not Exist'
 
         with open(rules_path, 'r') as rules_file:
             rules_yaml = yaml.load(rules_file)
@@ -59,8 +57,8 @@ class Calendar(object):
         normalised_days = []
         for day in days:
             normalised_day = day.lower()[:3]
-            if normalised_day not in self.DAY_NAMES:
-                raise Exception("Invalid Day: {0}".format(day))
+            day_is_valid = normalised_day in self.DAY_NAMES
+            assert day_is_valid, "Invalid Day: {0}".format(day)
             normalised_days.append(normalised_day)
         self._working_days = normalised_days
 

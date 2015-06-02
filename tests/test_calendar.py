@@ -20,7 +20,7 @@ def test_load_valid_calendar_from_custom_directory():
     assert calendar.yaml.load.called
 
 
-@raises(Exception)
+@raises(AssertionError)
 def test_invalid_calendar_throws_exception():
     calendar.Calendar.load('does-not-exist')
 
@@ -39,7 +39,7 @@ def test_given_valid_working_days_unnormalised():
     assert test_calendar.working_days == ['mon', 'fri']
 
 
-@raises(Exception)
+@raises(AssertionError)
 def test_given_invalid_working_days():
     test_calendar = calendar.Calendar()
 
