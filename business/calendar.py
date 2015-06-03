@@ -68,11 +68,6 @@ class Calendar(object):
 
     @holidays.setter
     def holidays(self, value):
-        """
-        Set the holidays.
-
-        This parses the date from a list of date strings.
-        """
         dates = value or []
         self._holidays = [parse_date(date) for date in dates]
 
